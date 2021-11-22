@@ -1,0 +1,42 @@
+version: "3"
+services:
+  cardoc-dev-local-backend:
+    container_name: cardoc-dev-local-backend
+    build:
+      context: .
+      dockerfile: ./Dockerfile-dev-local
+    ports:
+      - "8000:8000"
+    depends_on:
+      - cardoc-dev-local-db
+    restart: always
+    environment:
+      SQL_HOST: cardoc-dev-local-db
+      SQL_PORT: 5432
+      SQL_DATABASE_NAME: cardoc_local_dev
+      SQL_USER: cardoc_local_dev
+      SQL_PASSWORD: cardoc_local_dev
+      DJANGO_SETTINGS_MODULE: cardoc.settings.dev_local
+    command:
+      - bash
+      - -c
+      - |
+        python manage.py wait_for_db_connected -t 120
+        python manage.py migrate
+        python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/usr/src/app/
+  cardoc-dev-local-db:
+    container_name: cardoc-dev-local-db
+    image: postgres:14
+    restart: always
+    ports:
+      - 5432:5432
+    volumes:
+      - ./postgresql/data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_INITDB_ARGS=--encoding=UTF-8 --auth-host=scram-sha-256
+      - TZ="Asia/Seoul"
+      - POSTGRES_USER=cardoc_local_dev
+      - POSTGRES_PASSWORD=cardoc_local_dev
+      - POSTGRES_DB=cardoc_local_dev
