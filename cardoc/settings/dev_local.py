@@ -6,6 +6,8 @@ DEBUG = True
 
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'django_secret_key')
 
+SIMPLE_JWT['SIGNING_KEY'] = SECRET_KEY
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
