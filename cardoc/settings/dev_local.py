@@ -6,6 +6,12 @@ DEBUG = True
 
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'django_secret_key')
 
+TRIM_API_URL = os.environ.get('TRIM_API_URL', 'https://dev.mycar.cardoc.co.kr/v1/trim')
+
+MAX_REGISTRATION_TIRE_COUNT = os.environ.get('MAX_REGISTRATION_TIRE_CONUT', 5)
+
+
+
 SIMPLE_JWT['SIGNING_KEY'] = SECRET_KEY
 
 DATABASES = {
