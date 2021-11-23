@@ -4,9 +4,9 @@ from .models        import Tire
 
 
 class TireSerializers(serializers.ModelSerializer):
-    width       = serializers.CharField()
-    wheelSize   = serializers.CharField(source='wheel_size')
-    aspectRatio = serializers.CharField(source='aspect_ratio')
+    width       = serializers.IntegerField()
+    wheelSize   = serializers.IntegerField(source='wheel_size')
+    aspectRatio = serializers.IntegerField(source='aspect_ratio')
 
     class Meta:
         model  = Tire

@@ -57,7 +57,9 @@ class UserGenericViewSet(GenericViewSet):
                     for tire_key in tire_keys:
                         tire = parse(tire_pattern, trim_info.get_str(tire_key, '').replace(' ', ''))
                         if tire:
-                            tire_obj, _ = Tire.objects.get_or_create(**tire.named)
+                            tire = tire.named
+                            tire['width'] = tire['width'] if tire['width'][0].isdigit() else tire['width'][1:]
+                            tire_obj, _ = Tire.objects.get_or_create(**tire)
                             UserTire.objects.get_or_create(user=user_obj, tire=tire_obj)
 
             return Response({'detail':'Success'}, status=status.HTTP_200_OK)

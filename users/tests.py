@@ -114,7 +114,7 @@ class UserTireRegistrationTestCase(APITestCase):
 
         mock_body = benedict()
         mock_body['spec.driving.frontTire.value'] = '225/60R16'
-        mock_body['spec.driving.rearTire.value']  = '195/60 R15'
+        mock_body['spec.driving.rearTire.value']  = 'P195/60 R15'
         mocked_requests.get.side_effect = [MockRequestResponse(mock_body.dict(), 200)]
 
         data = [
@@ -124,8 +124,8 @@ class UserTireRegistrationTestCase(APITestCase):
         self.client.force_authenticate(self.user)
         response = self.client.post('/users/register-tires', data=json.dumps(data), content_type='application/json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertTrue(Tire.objects.filter(width='225', aspect_ratio='60', wheel_size='16').exists())
-        self.assertTrue(Tire.objects.filter(width='195', aspect_ratio='60', wheel_size='15').exists())
+        self.assertTrue(Tire.objects.filter(width=225, aspect_ratio=60, wheel_size=16).exists())
+        self.assertTrue(Tire.objects.filter(width=195, aspect_ratio=60, wheel_size=15).exists())
 
     @patch('users.views.requests')
     def test_register_tire_transaction_rollback(self, mocked_requests):
@@ -228,14 +228,14 @@ class UserTireListTestCase(APITestCase):
             password = '12345678',
         )
         self.tire1 = Tire.objects.create(
-            width        = '255',
-            aspect_ratio = '60',
-            wheel_size   = '16'
+            width        = 255,
+            aspect_ratio = 60,
+            wheel_size   = 16
         )
         self.tire2 = Tire.objects.create(
-            width        = '195',
-            aspect_ratio = '60',
-            wheel_size   = '15'
+            width        = 195,
+            aspect_ratio = 60,
+            wheel_size   = 15
         )
 
         UserTire.objects.create(user=self.user, tire=self.tire1)
@@ -244,14 +244,14 @@ class UserTireListTestCase(APITestCase):
     def test_lookup_user_tires_success(self):
         expected_data = [
             {
-                'width'      : '255',
-                'aspectRatio': '60',
-                'wheelSize'  : '16'
+                'width'      : 255,
+                'aspectRatio': 60,
+                'wheelSize'  : 16
             },
             {
-                'width'      : '195',
-                'aspectRatio': '60',
-                'wheelSize'  : '15'
+                'width'      : 195,
+                'aspectRatio': 60,
+                'wheelSize'  : 15
             }
         ]
 
