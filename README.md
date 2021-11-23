@@ -92,11 +92,17 @@
 🔍 **상세구현 가이드**
 
 - 자동차 정보 조회 API의 사용은 아래와 같이 5000, 9000부분에 trimId를 넘겨서 조회할 수 있다.
- **자동차 정보 조회 API 사용 예제 → 
-📄** [https://dev.mycar.cardoc.co.kr/v1/trim/5000](https://dev.mycar.cardoc.co.kr/v1/trim/5000)
-**📄** [https://dev.mycar.cardoc.co.kr/v1/trim/9000
-📄](https://dev.mycar.cardoc.co.kr/v1/trim/9000) [https://dev.mycar.cardoc.co.kr/v1/trim/11000
-📄](https://dev.mycar.cardoc.co.kr/v1/trim/11000) [https://dev.mycar.cardoc.co.kr/v1/trim/15000](https://dev.mycar.cardoc.co.kr/v1/trim/15000)
+ **자동차 정보 조회 API 사용 예제**
+  
+📄 [https://dev.mycar.cardoc.co.kr/v1/trim/5000](https://dev.mycar.cardoc.co.kr/v1/trim/5000)
+  
+📄 [https://dev.mycar.cardoc.co.kr/v1/trim/9000](https://dev.mycar.cardoc.co.kr/v1/trim/9000)
+
+📄 [https://dev.mycar.cardoc.co.kr/v1/trim/11000](https://dev.mycar.cardoc.co.kr/v1/trim/11000)
+
+📄 [https://dev.mycar.cardoc.co.kr/v1/trim/15000](https://dev.mycar.cardoc.co.kr/v1/trim/15000)
+  
+  
 - 조회된 정보에서 타이어 정보는 spec → driving → frontTire/rearTire 에서 찾을 수 있다.
 - 타이어 정보는 205/75R18의 포맷이 정상이다. 205는 타이어 폭을 의미하고 75R은 편평비, 그리고 마지막 18은 휠사이즈로써 {폭}/{편평비}R{18}과 같은 구조이다.
  위와 같은 형식의 데이터일 경우만 DB에 항목별로 나누어 서로다른 Column에 저장하도록 한다.
@@ -122,7 +128,16 @@
 ## API
 - [Postman Doc](https://documenter.getpostman.com/view/16042359/UVJYJyot)
 
-## 프로젝트 구조
+
+## 서버구조 및 아키텍쳐
+
+![image](https://user-images.githubusercontent.com/8219812/142994491-05b815c3-29e4-4ec3-b66b-07dc24f0c372.png)
+
+- 3개의 docker 컨테이너를 이용해서 배포를 하였습니다.
+
+### Django 내부
+![image](https://user-images.githubusercontent.com/8219812/143003743-133adae4-5a1d-4cc0-8856-bdb933ffadba.png)
+
 
 ## 구현 기능
 
