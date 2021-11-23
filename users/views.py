@@ -33,7 +33,7 @@ class UserGenericViewSet(GenericViewSet):
         data  = {'refresh': str(token), 'access': str(token.access_token)}
         return Response(data, status=status.HTTP_200_OK)
 
-    @action(detail=False, methods=['post'], url_path='register-tires', permission_classes=[IsAuthenticated])
+    @action(detail=False, methods=['POST'], url_path='register-tires', permission_classes=[IsAuthenticated])
     def register_tires(self, request):
         serializer = UserTireRegisterSerializer(data=request.data, many=True)
         if not serializer.is_valid():

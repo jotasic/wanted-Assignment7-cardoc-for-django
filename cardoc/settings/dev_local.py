@@ -10,8 +10,6 @@ TRIM_API_URL = os.environ.get('TRIM_API_URL', 'https://dev.mycar.cardoc.co.kr/v1
 
 MAX_REGISTRATION_TIRE_COUNT = os.environ.get('MAX_REGISTRATION_TIRE_CONUT', 5)
 
-
-
 SIMPLE_JWT['SIGNING_KEY'] = SECRET_KEY
 
 DATABASES = {
