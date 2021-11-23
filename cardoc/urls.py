@@ -23,5 +23,5 @@ urlpatterns = [
     path('docs/yaml/', SpectacularYAMLAPIView.as_view(), name='swagger-yaml'),
     path('docs/swagger/', SpectacularSwaggerView.as_view(url_name='schema-json'), name='swagger-ui',),
     path('docs/redoc/', SpectacularRedocView.as_view(url_name='schema-json'), name='redoc',),
-    path('users', include('users.urls'))
+    path('', include('users.urls'))
     ]

@@ -6,10 +6,10 @@ from .views import UserGenericViewSet
 
 
 router = routers.SimpleRouter(trailing_slash=False)
-router.register('', UserGenericViewSet, basename='users')
+router.register('users', UserGenericViewSet, basename='users')
 
 urlpatterns = [
     path('', include((router.urls))),
-    path('/token', TokenObtainPairView.as_view(), name='token_obtain'),
-    path('/token/refresh', TokenRefreshView.as_view(), name='token_refresh'),
+    path('users/token', TokenObtainPairView.as_view(), name='token_obtain'),
+    path('users/token/refresh', TokenRefreshView.as_view(), name='token_refresh'),
 ]
