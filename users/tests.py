@@ -15,7 +15,7 @@ from .models     import UserTire
 class usersTestCase(APITestCase):
     def setUp(self):
         self.user = get_user_model().objects.create_user(
-            user_id  = 'taewookim',
+            id       = 'taewookim',
             password = '12345678',
         )
         
@@ -24,7 +24,7 @@ class usersTestCase(APITestCase):
 
     def test_registration_success(self):
         data = {
-            "user_id"  : "cardoc",
+            "id"       : "cardoc",
             "password" : "12345678",
         }
 
@@ -34,9 +34,9 @@ class usersTestCase(APITestCase):
         self.assertIn('access', data)
         self.assertIn('refresh', data)
 
-    def test_registration_failed_duto_duplicated_user_id(self):
+    def test_registration_failed_duto_duplicated_id(self):
         data = {
-            "user_id"  : "taewookim",
+            "id"       : "taewookim",
             "password" : "12345678",
         }
 
@@ -47,7 +47,7 @@ class usersTestCase(APITestCase):
 class TokenTestCase(APITestCase):
     def setUp(self):
         self.user = get_user_model().objects.create_user(
-            user_id  = 'taewookim',
+            id       = 'taewookim',
             password = '12345678',
         )
         
@@ -56,7 +56,7 @@ class TokenTestCase(APITestCase):
     
     def test_get_tocken_success(self):
         data = {
-            "user_id"  : "taewookim",
+            "id"       : "taewookim",
             "password" : "12345678"
         }
 
@@ -82,7 +82,7 @@ class TokenTestCase(APITestCase):
 
     def test_get_tocken_failed_duto_invalid_password(self):
         data = {
-            "user_id"  : "taewookim",
+            "id"       : "taewookim",
             "password" : "1234567"
         }
 
@@ -93,7 +93,7 @@ class TokenTestCase(APITestCase):
 class UserTireRegistrationTestCase(APITestCase):
     def setUp(self):
         self.user = get_user_model().objects.create_user(
-            user_id  = 'taewookim',
+            id  = 'taewookim',
             password = '12345678',
         )
     
@@ -188,7 +188,7 @@ class UserTireRegistrationTestCase(APITestCase):
         response = self.client.post('/users/register-tires', data=json.dumps(data), content_type='application/json')
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
-    def test_register_tire_faild_duto_dose_not_exsist_user_id(self):
+    def test_register_tire_faild_duto_dose_not_exsist_id(self):
         data = [
             {'id': 'no_user', 'trimId': 1000}
         ]
@@ -224,7 +224,7 @@ class UserTireRegistrationTestCase(APITestCase):
 class UserTireListTestCase(APITestCase):
     def setUp(self):
         self.user = get_user_model().objects.create_user(
-            user_id  = 'taewookim',
+            id       = 'taewookim',
             password = '12345678',
         )
         self.tire1 = Tire.objects.create(
@@ -256,15 +256,15 @@ class UserTireListTestCase(APITestCase):
         ]
 
         self.client.force_authenticate(self.user)
-        response = self.client.get(f'/users/{self.user.user_id}/tires')
+        response = self.client.get(f'/users/{self.user.id}/tires')
         self.assertEqual(response.status_code, status.HTTP_200_OK)   
         self.assertEqual(response.json(), expected_data)
 
-    def test_lookup_user_tires_failed_duto_not_exsist_user_id(self):
+    def test_lookup_user_tires_failed_duto_not_exsist_id(self):
         self.client.force_authenticate(self.user)
         response = self.client.get(f'/users/no_user/tires')
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_lookup_user_tires_failed_duto_no_auth(self):
-        response = self.client.get(f'/users/{self.user.user_id}/tires')
+        response = self.client.get(f'/users/{self.user.id}/tires')
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)

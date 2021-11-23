@@ -6,7 +6,7 @@ from rest_framework import serializers
 class SingupSerializers(serializers.ModelSerializer):
     class Meta:
         model        = get_user_model()
-        fields       = ('user_id', 'password')
+        fields       = ('id', 'password')
         extra_kwargs = {'password' : {'write_only' : True}}
 
     def create(self, validated_data):

@@ -198,8 +198,8 @@ SIMPLE_JWT = {
 
     'AUTH_HEADER_TYPES': ('Bearer',),
     'AUTH_HEADER_NAME': 'HTTP_AUTHORIZATION',
-    'USER_ID_FIELD': 'id',
-    'USER_ID_CLAIM': 'user_id',
+    'USER_ID_FIELD': 'pk_id',
+    'USER_ID_CLAIM': 'id',
     'USER_AUTHENTICATION_RULE': 'rest_framework_simplejwt.authentication.default_user_authentication_rule',
 
     'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',),
@@ -213,8 +213,8 @@ SIMPLE_JWT = {
 }
 
 SPECTACULAR_SETTINGS = {
-    'TITLE': 'Deer',
-    'DESCRIPTION': 'Deer API',
+    'TITLE': 'Cardoc',
+    'DESCRIPTION': 'Cardoc API',
     'VERSION': '1.0.0',
     'SERVE_PERMISSIONS': ['rest_framework.permissions.AllowAny'],
     'SERVE_INCLUDE_SCHEMA': False,

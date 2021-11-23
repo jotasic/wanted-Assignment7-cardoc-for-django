@@ -6,16 +6,17 @@ from cars.models import Tire
 
 
 class User(AbstractBaseUser):
-    user_id    = models.CharField(max_length=50, unique=True)
+    pk_id      = models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')
+    id         = models.CharField(max_length=50, unique=True)
     created_at = models.DateTimeField(auto_now=True)
     updated_at = models.DateTimeField(auto_now_add=True)
 
     objects = UserManager()
 
-    USERNAME_FIELD  = 'user_id'
+    USERNAME_FIELD  = 'id'
 
     def __str__(self):
-        return f'{self.user_id}'
+        return f'{self.id}'
 
     def has_perm(self, perm, obj=None):
         return True
@@ -32,6 +33,7 @@ class User(AbstractBaseUser):
 
 
 class UserTire(models.Model):
+    pk_id      = models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')
     user       = models.ForeignKey(User, on_delete=models.CASCADE)
     tire       = models.ForeignKey(Tire, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now=True)
