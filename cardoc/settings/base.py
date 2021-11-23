@@ -12,11 +12,19 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 import os
 import datetime
-from pathlib  import Path
+from pathlib import Path
 
+from django.core.exceptions import ImproperlyConfigured
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
+
+def get_env_variable(var_name):
+    try:
+        return os.environ[var_name]
+    except KeyError:
+        error_msg = f'Set the {var_name} environment variable'
+        raise ImproperlyConfigured(error_msg)
 
 
 # Quick-start development settings - unsuitable for production
@@ -209,3 +217,7 @@ SIMPLE_JWT = {
     'SLIDING_TOKEN_LIFETIME': datetime.timedelta(days=7),
     'SLIDING_TOKEN_REFRESH_LIFETIME': datetime.timedelta(days=21),
 }
+
+# Custom config
+TRIM_API_URL = 'https://dev.mycar.cardoc.co.kr/v1/trim'
+MAX_REGISTRATION_TIRE_COUNT = 5
