@@ -11,7 +11,7 @@
 
 ## 과제 내용
 <details>
-<summary>과제내용 보기</summary>
+<summary><b>과제내용 자세히 보기</b></summary>
 <div markdown="1">
 
 ### **[필수 포함 사항]**
@@ -131,15 +131,53 @@
 
 ## 서버구조 및 아키텍쳐
 
-![image](https://user-images.githubusercontent.com/8219812/142994491-05b815c3-29e4-4ec3-b66b-07dc24f0c372.png)
+![image](https://user-images.githubusercontent.com/8219812/143032089-92176d71-6887-4e3e-83c2-19a664835a3e.png)
 
-- 3개의 docker 컨테이너를 이용해서 배포를 하였습니다.
+- 배포 환경 기준이며, 3개의 docker 컨테이너를 구동할 수 있게, `docker-compose` file를 작성하였습니다.
 
 ### Django 내부
 ![image](https://user-images.githubusercontent.com/8219812/143003743-133adae4-5a1d-4cc0-8856-bdb933ffadba.png)
 
 
 ## 구현 기능
+
+### 사용자 생성 API
+- `id`와 `password`를 입력받아서 유효성 체크 후, 회원가입을 합니다.
+- 회원가입이 성공하면, AccessToken과 RefreshToken을 반환합니다.
+-  Django Model의 pk의 기본 값은 id 입니다. 요구한 사항의 맞추기 위해서 pk 기본 값을 id에서 pk_id 로 변경하였습니다.
+-  Token발급은 [simple_jwt](https://django-rest-framework-simplejwt.readthedocs.io/en/latest/)를 사용하였습니다. 따라서 로그인과 토큰 갱신 부분은 따로 구현하지 않고 제공해주는 View를 연결하였습니다.
+
+### 사용자가 소유한 타이어 정보를 저장하는 API
+- 과제 구현 요구 사항을 보았을 때, Token만 있다면 다른 user의 타이어 정보도 저장 할 수 있다고 판단하였습니다.
+- 받은 정보를 검사해서 user `id`가 유효한지 검사하고, `trimId`도 유효한지 외부 API 호출을 통해서 검사하였습니다. 응답이 400, 500 일 경우 해당 `trimId`는 잘못되었다고 판단하였습니다.
+- 요구사항에는 5개까지 요청을 받을 수 있다고 하여, 여러번의 `Database Create`를 해야되고, 중간에 잘못된 user `id`나 `trimId`가 올 시, `Rollback`를 해야되지 때문에, Transaction 처리를 하였습니다.
+- 타이어 정보는 `trimId`의 대한 자동차 정보를 API를 통해서 받으면, [python-benedict](https://pypi.org/project/python-benedict/)를 이용해서 전/후 타이어의 값을 접근하였습니다.
+- 그 후, 포멧이 맞으면, 각 수치 값을 가져오는 작업은 [parse](https://pypi.org/project/parse/)를 사용하였습니다.
+- 가공한 데이터를 기반으로 기존에 동일한 정보가 `trie table`에 있으면 가져올 수 있게 `get_or_create()`를 사용하였습니다.
+- 마지막으로 `users`와 `tires`중간 테이블인 `user_tires table`에도 `get_or_create()`를 사용하여 데이터의 중복을 피하였습니다.
+
+### 사용자가 소유한 타이어 정보 조회 API
+- Token만 있다면 다른 user의 타이어 정보도 조회 할 수 있습니다.
+- 존재하지 않는 user가 입력 시, 요구사항에 맞게 400을 반환하도록 하였습니다.
+
+
+### python-benedict
+- python-benedict의 장점은 계층 구조로 된 딕셔너리를 접근할 때, 코드를 간결하게 작성할 수 있습니다.
+  ```python
+  # 일반적인 접근 방식 (에러처리를 고려하지 않은 코드)
+  data['spec']['driving']['frontTire']['value']
+  
+  # python-benedict를 사용한 접근 방식
+  trim_info = benedict(data)
+  trim_info.get_str('spec.driving.frontTire.value', '')
+  ```
+- 또한 계층 구조의 딕셔너리도 만들 수 있어서 test code mock data를 만들때, 유용하게 사용하였습니다.
+  ```python
+    mock_body = benedict()
+    mock_body['spec.driving.frontTire.value'] = '225/60R16'
+    print(mock_body.dict())
+    # resuelt {'spec': {'driving' : {'frontTire' : {'value' : '225/60R16'}}}}
+  ```
 
 ## 배포정보
 |구분   |  정보          |비고|
@@ -149,12 +187,37 @@
 
 
 ## API TEST 방법
+
+<details>
+  <summary><b>API TEST 방법 자세히 보기</b></summary>
+<div markdown="1">
+
 1. 우측 링크를 클릭해서 Postman으로 들어갑니다. [링크](https://www.postman.com/wecode-21-1st-kaka0/workspace/assignment7-cardoc/collection/16042359-a366ebbd-8548-41b4-9793-986bd6d81a8a?ctx=documentation)
 
+2. Postman 우측 상단에  ENVIRONMENT 설정 버튼를 클릭해서(눈 모양) URL 설정이 올바른지 확인합니다. (http://18.188.189.173:8061) 올바르지 않으면 수정합니다.
+
+  ![image](https://user-images.githubusercontent.com/8219812/143038825-fe40649f-865b-468a-be40-5a81dafe7a41.png)
+
+3. 제공한 회원가입 API를 이용해서 회원가입을 진행합니다. 회원가입이 성공하면 Access, Refresh Token을 반환합니다.
+
+  ![image](https://user-images.githubusercontent.com/8219812/143039327-ad20a64b-ceef-436d-8c5e-13b377fd4f3f.png)
+
+4. Access 토큰을 이미지를 참고해서 입력하고, 저장합니다.
+
+  ![image](https://user-images.githubusercontent.com/8219812/143039491-db3ee223-dc72-49e0-bd5a-419f175b0ac5.png)
+
+5. 이제 Access Token이 설정되었기 때문에, 다른 API를 호출할 수 있습니다.
+
+6 만약 Send 버튼이 비활성화 이시면 fork를 이용해서 해당 postman project를 복사해서 시도하길 바랍니다.
+  
+  ![image](https://user-images.githubusercontent.com/8219812/143040169-cb3bbba5-7583-4937-b5b6-35489bcd5c7d.png)
+  
+</div>
+</details>
 
 ## 설치 및 실행 방법
 <details>
-<summary>설치 및 실행 방법 자세히 보기</summary>
+ <summary><b>설치 및 실행 방법 자세히 보기</b></summary>
 <div markdown="1">
   
 ###  Local 개발 및 테스트용
