@@ -2,7 +2,7 @@ from .base import *
 
 ALLOWED_HOSTS = ['*']
 
-DEBUG = True
+DEBUG = False
 
 SECRET_KEY = get_env_variable('DJANGO_SECRET_KEY')
 
