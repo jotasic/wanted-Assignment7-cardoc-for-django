@@ -43,7 +43,6 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_simplejwt',
     'django_extensions',
-    'drf_spectacular',
     'commands',
     'users',
     'cars',
@@ -169,7 +168,6 @@ CORS_ALLOW_HEADERS = (
 AUTH_USER_MODEL = 'users.User'
 
 REST_FRAMEWORK = {
-    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
@@ -210,12 +208,4 @@ SIMPLE_JWT = {
     'SLIDING_TOKEN_REFRESH_EXP_CLAIM': 'refresh_exp',
     'SLIDING_TOKEN_LIFETIME': datetime.timedelta(days=7),
     'SLIDING_TOKEN_REFRESH_LIFETIME': datetime.timedelta(days=21),
-}
-
-SPECTACULAR_SETTINGS = {
-    'TITLE': 'Cardoc',
-    'DESCRIPTION': 'Cardoc API',
-    'VERSION': '1.0.0',
-    'SERVE_PERMISSIONS': ['rest_framework.permissions.AllowAny'],
-    'SERVE_INCLUDE_SCHEMA': False,
 }
