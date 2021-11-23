@@ -21,7 +21,7 @@ from cars.serializers import TireSerializers
 class UserGenericViewSet(GenericViewSet):
     permission_classes = [AllowAny]
     queryset           = get_user_model()
-    lookup_field       = 'user_id'
+    lookup_field       = 'id'
 
     def create(self, request):
         serializer = SingupSerializers(data=request.data)
@@ -48,7 +48,7 @@ class UserGenericViewSet(GenericViewSet):
         try:
             with transaction.atomic():
                 for data in serialized_data:
-                    user_obj = get_user_model().objects.get(user_id=data['id'])
+                    user_obj = get_user_model().objects.get(id=data['id'])
                     response = requests.get(f'{settings.TRIM_API_URL}/{data["trimId"]}', timeout=1)
                     if response.status_code != status.HTTP_200_OK:
                         return Response({'detail':'Dose not exist trimId'}, status=status.HTTP_400_BAD_REQUEST)
@@ -68,7 +68,7 @@ class UserGenericViewSet(GenericViewSet):
             return Response({'detail':'Internal Server Error'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
     @action(detail=True, methods=['GET'], url_path='tires', permission_classes=[IsAuthenticated])
-    def get_users_tires(self, request, user_id):
+    def get_users_tires(self, request, id):
         try:
             user  = self.get_object()
             tires = Tire.objects.prefetch_related('usertire_set') \
