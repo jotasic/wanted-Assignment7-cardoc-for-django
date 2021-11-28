@@ -138,7 +138,7 @@
 - 배포 환경 기준이며, 3개의 docker 컨테이너를 구동할 수 있게, `docker-compose` file를 작성하였습니다.
 
 ### Django 내부
-![image](https://user-images.githubusercontent.com/8219812/143003743-133adae4-5a1d-4cc0-8856-bdb933ffadba.png)
+![image](https://user-images.githubusercontent.com/8219812/143771232-1f666a84-57cd-4fc0-b7c9-5620beefed66.png)
 
 
 ## 구현 기능
