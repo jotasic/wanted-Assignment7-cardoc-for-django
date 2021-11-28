@@ -4,6 +4,8 @@
 - 과제 출제 기업 정보
   - 기업명 : 카닥
 
+> 이 과제를 nestjs를 이용해서도 구현하였습니다. 우측 링크를 참고해주세요 [github주소](https://github.com/Wanted-Preonboarding-Backend-1st-G5/Assignment7-TW-NESTJS)
+
 ## Member
 | 이름  | github                                   |
 |-------|-----------------------------------------|
@@ -194,18 +196,18 @@
 
 1. 우측 링크를 클릭해서 Postman으로 들어갑니다. [링크](https://www.postman.com/wecode-21-1st-kaka0/workspace/assignment7-cardoc/collection/16042359-a366ebbd-8548-41b4-9793-986bd6d81a8a?ctx=documentation)
 
-2. Postman 우측 상단에  ENVIRONMENT 설정 버튼를 클릭해서(눈 모양) URL 설정이 올바른지 확인합니다. (http://18.188.189.173:8061) 올바르지 않으면 수정합니다.
+2. Postman 우측 상단에  ENVIRONMENT 설정 버튼를 클릭해서(눈 모양) `DJANGP_SERVER_URL` 설정이 올바른지 확인합니다. (http://18.188.189.173:8061) 올바르지 않으면 수정합니다.
 
-  ![image](https://user-images.githubusercontent.com/8219812/143038825-fe40649f-865b-468a-be40-5a81dafe7a41.png)
+![image](https://user-images.githubusercontent.com/8219812/143769923-b47703d6-94f9-4c2c-a57c-c8007f16404b.png)
 
-3. 제공한 회원가입 API를 이용해서 회원가입을 진행합니다. 회원가입이 성공하면 Access, Refresh Token을 반환합니다.
+3. 제공한 회원가입 API를 이용해서 `Cardoc-Django`탭에 있는 회원가입을 진행합니다. 회원가입이 성공하면 Access, Refresh Token을 반환합니다.
 
-  ![image](https://user-images.githubusercontent.com/8219812/143039327-ad20a64b-ceef-436d-8c5e-13b377fd4f3f.png)
+![image](https://user-images.githubusercontent.com/8219812/143769970-6c51e15b-8f61-44d0-ad6b-93898f03fee5.png)
 
 4. Access 토큰을 이미지를 참고해서 입력하고, 저장합니다.
 
-  ![image](https://user-images.githubusercontent.com/8219812/143039491-db3ee223-dc72-49e0-bd5a-419f175b0ac5.png)
-
+![image](https://user-images.githubusercontent.com/8219812/143770006-25500af2-aac7-46ee-853b-7f8717077601.png)
+  
 5. 이제 Access Token이 설정되었기 때문에, 다른 API를 호출할 수 있습니다.
 
 6 만약 Send 버튼이 비활성화 이시면 fork를 이용해서 해당 postman project를 복사해서 시도하길 바랍니다.
