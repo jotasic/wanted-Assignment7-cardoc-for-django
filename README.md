@@ -11,7 +11,7 @@
 |-------|-----------------------------------------|
 |김태우 |[jotasic](https://github.com/jotasic)     | 
 
-## TIL정리 (Blog)
+## 프로젝트 후기
 - https://velog.io/@burnkim61/프리온보딩-과제-7
 
 ## 과제 내용
